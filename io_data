@@ -1,6 +1,7 @@
 import csv
 import os
 import pandas as pd
+import glob
 
 
 def get_new_csv_file_name() -> tuple[str, str, str]:
@@ -26,9 +27,8 @@ def get_new_csv_file_name() -> tuple[str, str, str]:
     """
 
     # Prompt for directory name, use "flashcards" as default if input is empty
-    directory_name = input("Enter Directory (press enter for default) > ")
-    if directory_name == "":
-        directory_name = "flashcards"
+    
+    directory_name = "flashcards"
 
     # Try to create the specified directory (if it doesn't exist), handle OS errors if any
     try:
@@ -39,7 +39,7 @@ def get_new_csv_file_name() -> tuple[str, str, str]:
 
     # Loop to prompt for a valid file name
     while True:
-        file_name = input("Enter file name > ")
+        file_name = input("Enter the name of topic (no spaces) > ")
         # Check if a file name was entered
         if file_name:
             # Construct the full path for the new file
@@ -85,7 +85,8 @@ def write_new_csv(file_name, directory_name, full_path) -> None:
         with open(full_path, "w", newline="") as file:
             writer = csv.writer(file)
             writer.writerow(rows)
-            print(f"File {file_name} created successfully.")
+            print(f"File {file_name} created successfully.\n")
+            
     
     # Print an error message if an IOError occurs during the file operation
     except IOError as e:
@@ -116,23 +117,47 @@ def create_new_csv() -> None:
         write_new_csv(file_name, directory_name, full_path)
 
 
-def load_csv() -> pd.DataFrame | None:
-    default_directory = "flashcards"
-    directory_name: str = input(f"Enter Directory (press enter for default '{default_directory}') > ") or default_directory
+def list_csv() -> list[str]:
+    """
+    Lists all CSV file names in the specified folder without their directory paths.
 
+    Returns:
+    - list[str]: A list of CSV file names found in the specified folder.
+    """
+
+    directory_name = "flashcards"
+
+    # Construct the search pattern to match all CSV files in the folder
+    search_pattern = os.path.join(directory_name, '*.csv')
+    
+    # Use glob.glob to find all files matching the search pattern
+    csv_files = glob.glob(search_pattern)
+    
+    # Extract just the file names from the full paths
+    file_names = [os.path.basename(file) for file in csv_files]
+    
+    return file_names
+
+
+def load_csv() -> pd.DataFrame | None:
+    
+    directory_name =  "flashcards"
     while True:
-        file_name: str = input("Enter file name (press enter to exit) > ")
+
+
+        file_name: str = input("\nEnter file name (press enter to exit) > ")
         
         if not file_name:
             return None
 
-        full_path: str = os.path.join(directory_name, file_name + ".csv") 
+        full_path: str = os.path.join(directory_name, file_name) 
 
         if os.path.exists(full_path): 
+            print(f"{file_name} loaded succesfull\n")
             return pd.read_csv(full_path)
         else: 
             print(f"The file {file_name}.csv was not found in the directory {directory_name}.\n")
-            user_continue = input("Try again? [Y/n]")
+            user_continue = input("Try again? [Y/n] > ")
 
             if user_continue.lower() != 'y':
                 return None
