@@ -51,8 +51,9 @@ def get_new_csv_file_name() -> tuple[str, str, str]:
                 # Inform the user that the file already exists and prompt for a different name
                 print(f"The file {file_name}.csv already exists in the directory {directory_name}.\n")
         else:
-            # Prompt the user to enter a file name if they didn't enter one
-            print("Please enter a valid file name\n")
+
+            return "", "", ""
+
 
     return file_name + ".csv", directory_name, full_path
 
@@ -110,11 +111,13 @@ def create_new_csv() -> None:
 
     # Get the new CSV file name, directory, and full path from the user
     file_name, directory_name, full_path = get_new_csv_file_name()
-
+    print(file_name)
     # Ensure a valid file name was provided before proceeding
-    if file_name:  
+    if file_name != "":
         # Create the CSV file and write initial content to it
         write_new_csv(file_name, directory_name, full_path)
+    else:
+        return False
 
 
 def list_csv() -> list[str]:
@@ -153,7 +156,7 @@ def load_csv() -> pd.DataFrame | None:
         full_path: str = os.path.join(directory_name, file_name) 
 
         if os.path.exists(full_path): 
-            print(f"{file_name} loaded succesfull\n")
+            print(f"{file_name} loaded succesfully\n")
             return pd.read_csv(full_path)
         else: 
             print(f"The file {file_name}.csv was not found in the directory {directory_name}.\n")

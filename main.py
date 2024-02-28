@@ -1,8 +1,6 @@
 import pandas as pd
-from handle_data import create_new_csv, load_csv, list_csv
+from io_data import create_new_csv, load_csv, list_csv
 from helpers import clear_terminal, countdown
-import os
-import time
 
 
 
@@ -34,7 +32,8 @@ def initial_prompt():
                 
         elif choice == '2':
             clear_terminal()
-            create_new_csv()
+            if create_new_csv() == False:
+                countdown("No file name entered")
         else:
             print("Invalid choice. Please enter 1 or 2.")
     
