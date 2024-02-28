@@ -105,7 +105,6 @@ def create_new_csv() -> None:
     None
     """
 
-
     # Get the new CSV file name, directory, and full path from the user
     file_name, directory_name, full_path = get_new_csv_file_name()
 
