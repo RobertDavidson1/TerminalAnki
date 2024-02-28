@@ -1,5 +1,7 @@
 import csv
 import os
+import pandas as pd
+
 
 def get_new_csv_file_name() -> tuple[str, str, str]:
     """
@@ -114,3 +116,25 @@ def create_new_csv() -> None:
         write_new_csv(file_name, directory_name, full_path)
 
 
+def load_csv() -> pd.DataFrame | None:
+    default_directory = "flashcards"
+    directory_name: str = input(f"Enter Directory (press enter for default '{default_directory}') > ") or default_directory
+
+    while True:
+        file_name: str = input("Enter file name (press enter to exit) > ")
+        
+        if not file_name:
+            return None
+
+        full_path: str = os.path.join(directory_name, file_name + ".csv") 
+
+        if os.path.exists(full_path): 
+            return pd.read_csv(full_path)
+        else: 
+            print(f"The file {file_name}.csv was not found in the directory {directory_name}.\n")
+            user_continue = input("Try again? [Y/n]")
+
+            if user_continue.lower() != 'y':
+                return None
+
+    
