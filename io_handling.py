@@ -30,7 +30,7 @@ def initialise_csv():
         return f"An error occurred while creating the directory: {e}"
 
     if not os.path.exists(full_path): 
-        rows = ["front", "back"]
+        rows = ["Question", "Answer", "Repitions", "Interval", "Ease Factor", "Next Review date"]
         print(f"\nCreating {file_name} in {directory}...")
 
         try:
