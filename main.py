@@ -1,6 +1,8 @@
 import pandas as pd
-from io_handling import csv_file_menu
+from csv_io_handling import csv_file_menu, new_question, delete_question, edit_question 
+from question_io_handling import new_question, delete_question, edit_question
 from sm2 import ask_question
+
 
 
 
