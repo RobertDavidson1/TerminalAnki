@@ -127,7 +127,7 @@ def rename_or_delete_csv():
 
 
 
-def main_csv_handling():
+def csv_file_menu():
     
     while True:
         print("1. Load a CSV")

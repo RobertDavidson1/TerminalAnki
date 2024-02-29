@@ -1,3 +1,4 @@
-from io_handling import main_csv_handling
+import pandas as csv
+from io_handling import csv_file_menu
 
-main_csv_handling()
+csv_file_menu()
